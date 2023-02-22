@@ -7,6 +7,8 @@ import { Input } from './components/Input';
 import { Oscar } from './components/Oscar';
 import { Person } from './components/Person';
 import { PersonList } from './components/PersonList';
+import { Counter } from './components/state/Counter';
+import { LoggedIn } from './components/state/LoggedIn';
 import { Status } from './components/Status';
 
 function App() {
@@ -65,6 +67,14 @@ function App() {
 				padding: '20px',
 				marginBottom: '20px'
 			}}/>
+			<hr />
+
+			{/* State Tutorial Starts */}
+			<LoggedIn />
+			<hr />
+
+			{/* Reducer Tutorial Starts */}
+			<Counter />
         </div>
     );
 }

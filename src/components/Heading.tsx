@@ -4,8 +4,8 @@ type HeadingProps = {
 
 export const Heading = (props: HeadingProps) => {
     return (
-        <h3>
+        <div>
             {props.children}
-        </h3>
+        </div>
     )
 }
