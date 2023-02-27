@@ -1,6 +1,10 @@
 import './App.css';
 import { Button } from './components/Button';
 import { Container } from './components/Container';
+import { Box } from './components/context/Box';
+import { ThemeContextProvider } from './components/context/ThemeContext';
+import { User } from './components/context/User';
+import { UserContextProvider } from './components/context/UserContext';
 import { Greet } from './components/Greet';
 import { Heading } from './components/Heading';
 import { Input } from './components/Input';
@@ -75,6 +79,20 @@ function App() {
 
 			{/* Reducer Tutorial Starts */}
 			<Counter />
+			<hr />
+
+			<ThemeContextProvider>
+				<Box />
+			</ThemeContextProvider>
+			<hr />
+
+			<h4>Login / Logout using useContext</h4>
+			<UserContextProvider>
+				<User />
+			</UserContextProvider>
+			<hr />
+
+			
         </div>
     );
 }
