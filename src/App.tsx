@@ -1,12 +1,16 @@
 import './App.css';
+import { Private } from './components/auth/Private';
+import { Profile } from './components/auth/Profile';
 import { Button } from './components/Button';
 import { Container } from './components/Container';
 import { Box } from './components/context/Box';
 import { ThemeContextProvider } from './components/context/ThemeContext';
 import { User } from './components/context/User';
 import { UserContextProvider } from './components/context/UserContext';
+import { List } from './components/generics/List';
 import { Greet } from './components/Greet';
 import { Heading } from './components/Heading';
+import { CustomButton } from './components/html/Button';
 import { Input } from './components/Input';
 import { Oscar } from './components/Oscar';
 import { Person } from './components/Person';
@@ -96,6 +100,42 @@ function App() {
 
 			<DomRef />
 			<MutableRef />
+			<hr />
+
+			<Private isLoggedIn={true} ponent={Profile} />
+			<hr />
+
+			{/* <List
+				items={['Batman', 'Superman', 'Wonder Woman']}
+				onClick={item => console.log(item)}
+			/>
+			<List items={[1, 2, 3]} onClick={item => console.log(item)} /> */}
+			<List
+				items={[
+					{
+						id: 1,
+						first: 'Bruce',
+						last: 'Wayne'
+					},
+					{
+						id: 2,
+						first: 'Clark',
+						last: 'Kent'
+					},
+					{
+						id: 3,
+						first: 'Princess',
+						last: 'Diana'
+					}
+				]}
+				onClick={item => console.log(item)}
+			/>
+
+			<hr />
+			{/* Wrapping HTML Elements */}
+			<CustomButton variant='primary' onClick={() => console.log('Clicked')}>
+				Button Label
+			</CustomButton>
         </div>
     );
 }
