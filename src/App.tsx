@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import './App.css';
 import { Private } from './components/auth/Private';
 import { Profile } from './components/auth/Profile';
@@ -15,6 +16,8 @@ import { Input } from './components/Input';
 import { Oscar } from './components/Oscar';
 import { Person } from './components/Person';
 import { PersonList } from './components/PersonList';
+import Form from './components/react-interview/Form';
+import { sortTableType, Table } from './components/react-interview/Table';
 import { DomRef } from './components/ref/DomRef';
 import { MutableRef } from './components/ref/MutableRef';
 import { Counter } from './components/state/Counter';
@@ -43,7 +46,53 @@ function App() {
     ]
 
 	let inputValue = '';
+	const [sortList, setSortList] = useState<sortTableType[]>([
+		{
+			id: 1,
+			first: 'Bruce',
+			last: 'Wayne',
+			dateOfBirth: '1/1/1985'
+		},
+		{
+			id: 2,
+			first: 'Clark',
+			last: 'Kent',
+			dateOfBirth: '3/3/1980'
+		},
+		{
+			id: 3,
+			first: 'Princess',
+			last: 'Diana',
+			dateOfBirth: '5/5/1995'
+		},
+		{
+			id: 4,
+			first: 'Barry',
+			last: 'Allen',
+			dateOfBirth: '10/10/1990'
+		},
+		{
+			id: 5,
+			first: 'Billy',
+			last: 'Batson',
+			dateOfBirth: '21/12/2000'
+		}
+	])
 
+	const changeSortFn = (radioSort: string) => {
+		console.log('Sort Changed to ', radioSort)
+		console.log(sortList);
+		console.log(JSON.parse(JSON.stringify(sortList.sort((a, b) => a.first.localeCompare(b.first)))))
+		if (radioSort === 'sortName') {
+			setSortList(JSON.parse(JSON.stringify(sortList.sort((a, b) => a.first.localeCompare(b.first)))))
+		} else if (radioSort === 'sortDate') {
+			setSortList(JSON.parse(JSON.stringify(sortList.sort((a, b) => {
+				return a.dateOfBirth.split('/').reverse().join().localeCompare(b.dateOfBirth.split('/').reverse().join());
+			}))))
+			
+		}
+	}
+	
     return (
         <div className="App">
             <Greet name='Gullu' isLoggedIn={true} />
@@ -111,23 +160,7 @@ function App() {
 			/>
 			<List items={[1, 2, 3]} onClick={item => console.log(item)} /> */}
 			<List
-				items={[
-					{
-						id: 1,
-						first: 'Bruce',
-						last: 'Wayne'
-					},
-					{
-						id: 2,
-						first: 'Clark',
-						last: 'Kent'
-					},
-					{
-						id: 3,
-						first: 'Princess',
-						last: 'Diana'
-					}
-				]}
+				items={sortList}
 				onClick={item => console.log(item)}
 			/>
 
@@ -136,6 +169,10 @@ function App() {
 			<CustomButton variant='primary' onClick={() => console.log('Clicked')}>
 				Button Label
 			</CustomButton>
+			<hr />
+
+			<Form changeSort={changeSortFn}/>
+			<Table sortArray={sortList}/>
         </div>
     );
 }
