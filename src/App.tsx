@@ -23,6 +23,7 @@ import { MutableRef } from './components/ref/MutableRef';
 import { Counter } from './components/state/Counter';
 import { LoggedIn } from './components/state/LoggedIn';
 import { Status } from './components/Status';
+import ClickCounter from './components/higher-order/ClickCounter';
 
 function App() {
     const personName = {
@@ -80,9 +81,9 @@ function App() {
 	])
 
 	const changeSortFn = (radioSort: string) => {
-		console.log('Sort Changed to ', radioSort)
-		console.log(sortList);
-		console.log(JSON.parse(JSON.stringify(sortList.sort((a, b) => a.first.localeCompare(b.first)))))
+		// console.log('Sort Changed to ', radioSort)
+		// console.log(sortList);
+		// console.log(JSON.parse(JSON.stringify(sortList.sort((a, b) => a.first.localeCompare(b.first)))))
 		if (radioSort === 'sortName') {
 			setSortList(JSON.parse(JSON.stringify(sortList.sort((a, b) => a.first.localeCompare(b.first)))))
 		} else if (radioSort === 'sortDate') {
@@ -173,6 +174,9 @@ function App() {
 
 			<Form changeSort={changeSortFn}/>
 			<Table sortArray={sortList}/>
+			<hr />
+
+			<ClickCounter />
         </div>
     );
 }
