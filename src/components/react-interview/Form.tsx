@@ -26,6 +26,7 @@ const Form = ({changeSort}: FormProps) => {
 	const handleRadioSort = (e: React.ChangeEvent<HTMLInputElement>) => {
 		console.log(e.target);
 		setRadioSort(e.target.id)
+		changeSort(e.target.id);
 	}
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -35,7 +36,6 @@ const Form = ({changeSort}: FormProps) => {
 
 	useEffect(() => {
 		console.log('Do something after counter has changed', radioSort);
-		changeSort(radioSort);
 	}, [radioSort]);
 
 	return (
@@ -73,8 +73,8 @@ const Form = ({changeSort}: FormProps) => {
 						onChange={(event) => handleRadioSort(event)}
 						checked={radioSort === 'sortName'}
 					/>
-
-					<label htmlFor="sortDate">Sort by Name</label>
+					<br />
+					<label htmlFor="sortDate">Sort by Date</label>
 					<input type="radio" name="sortTable" id="sortDate"
 						value={radioSort}
 						onChange={(event) => handleRadioSort(event)}

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { createContext, useCallback, useReducer, useState } from 'react';
 import './App.css';
 import { Private } from './components/auth/Private';
 import { Profile } from './components/auth/Profile';
@@ -24,15 +24,35 @@ import { Counter } from './components/state/Counter';
 import { LoggedIn } from './components/state/LoggedIn';
 import { Status } from './components/Status';
 import ClickCounter from './components/higher-order/ClickCounter';
+import ReduceCounter from './components/reducers/ReduceCounter';
+
+type Action = 'increment' | 'decrement' | 'reset'
+export const contextForReducerValue = createContext<number | null>(null)
+export const contextForReducerDispatch = createContext<React.Dispatch<Action> | any>({} as any)
+
+const cartInit = 0
+const cartReducer = (cartState: number, cartUpdate: Action) => {
+	switch (cartUpdate) {
+		case 'increment':
+			return cartState + 1
+		case 'decrement':
+			return cartState - 1
+		case 'reset':
+			return cartInit
+		default:
+			return cartState
+	}
+}
 
 function App() {
-    const personName = {
-        first: 'Bruce',
-        last: 'Bhai'
-    }
 
-    const nameList = [
-        {
+	const personName = {
+		first: 'Bruce',
+		last: 'Bhai'
+	}
+
+	const nameList = [
+		{
 			first: 'Bruce',
 			last: 'Wayne'
 		},
@@ -44,9 +64,9 @@ function App() {
 			first: 'Princess',
 			last: 'Diana'
 		}
-    ]
+	]
 
-	let inputValue = '';
+	const [inputValue, setInputValue] = useState('RRR');
 	const [sortList, setSortList] = useState<sortTableType[]>([
 		{
 			id: 1,
@@ -80,30 +100,36 @@ function App() {
 		}
 	])
 
-	const changeSortFn = (radioSort: string) => {
-		// console.log('Sort Changed to ', radioSort)
-		// console.log(sortList);
-		// console.log(JSON.parse(JSON.stringify(sortList.sort((a, b) => a.first.localeCompare(b.first)))))
-		if (radioSort === 'sortName') {
-			setSortList(JSON.parse(JSON.stringify(sortList.sort((a, b) => a.first.localeCompare(b.first)))))
-		} else if (radioSort === 'sortDate') {
-			setSortList(JSON.parse(JSON.stringify(sortList.sort((a, b) => {
-				return a.dateOfBirth.split('/').reverse().join().localeCompare(b.dateOfBirth.split('/').reverse().join());
-			}))))
-			
-		}
-	}
-	
-    return (
-        <div className="App">
-            <Greet name='Gullu' isLoggedIn={true} />
-            <Person name={personName} />
+	const changeSortFn = useCallback(
+		(radioSort: string) => {
+			// console.log('Sort Changed to ', radioSort)
+			// console.log(sortList);
+			// console.log(JSON.parse(JSON.stringify(sortList.sort((a, b) => a.first.localeCompare(b.first)))))
+			if (radioSort === 'sortName') {
+				setSortList(JSON.parse(JSON.stringify(sortList.sort((a, b) => a.first.localeCompare(b.first)))))
+			} else if (radioSort === 'sortDate') {
+				setSortList(JSON.parse(JSON.stringify(sortList.sort((a, b) => {
+					return a.dateOfBirth.split('/').reverse().join().localeCompare(b.dateOfBirth.split('/').reverse().join());
+				}))))
+
+			}
+		},
+		[sortList],
+	)
+
+	// useReducer and useContext example
+	const [myCart, myCartUpdate] = useReducer(cartReducer, cartInit)
+
+	return (
+		<div className="App">
+			<Greet name='Gullu' isLoggedIn={true} />
+			<Person name={personName} />
 			<hr />
 
-            <PersonList names={nameList}/>
+			<PersonList names={nameList} />
 			<hr />
 
-			<Status status='loading'/>
+			<Status status='loading' />
 			<hr />
 
 			<Heading>Hello, this is Heading!</Heading>
@@ -116,17 +142,17 @@ function App() {
 				console.log(`The ID is ${id} and event is ${event}`);
 			}} />
 			<Input value={inputValue} handleChange={(event) => {
-				console.log(event);
+				setInputValue(event.target.value)
 			}} />
 			{`-- >> ${inputValue}`}
 			<hr />
 
 			<Container styles={{
-				border: '1px solid red',
+				border: '1px solid green',
 				display: 'inline-block',
 				padding: '20px',
 				marginBottom: '20px'
-			}}/>
+			}} />
 			<hr />
 
 			{/* State Tutorial Starts */}
@@ -172,13 +198,24 @@ function App() {
 			</CustomButton>
 			<hr />
 
-			<Form changeSort={changeSortFn}/>
-			<Table sortArray={sortList}/>
+			<Form changeSort={changeSortFn} />
+			<Table sortArray={sortList} />
 			<hr />
 
 			<ClickCounter />
-        </div>
-    );
+			<hr />
+
+			<contextForReducerValue.Provider value={myCart}>
+				<contextForReducerDispatch.Provider value={myCartUpdate}>
+					<div>
+						Reducers in React! - {myCart}
+						<button onClick={() => myCartUpdate('increment')}>Increment 1</button>
+						<ReduceCounter />
+					</div>
+				</contextForReducerDispatch.Provider>
+			</contextForReducerValue.Provider>
+		</div>
+	);
 }
 
 export default App;

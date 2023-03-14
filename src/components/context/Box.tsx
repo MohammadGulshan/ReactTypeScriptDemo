@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { ThemeContext } from "./ThemeContext"
 
 export const Box = () => {
@@ -13,15 +13,16 @@ export const Box = () => {
 		color: theme.secondary.text,
 		padding: '30px'
 	}
-	let isPrimary = true;
+
+	const [isPrimary, setisPrimary] = useState(true)
 
 	const changeTheme = () => {
-		isPrimary = !isPrimary;
+		setisPrimary(!isPrimary);
 	}
 
 	return (
 		<div style={isPrimary ? boxStylePrimary : boxStyleSecondary}>
-			Theme Context
+			Theme Context - - {isPrimary}
 			<div>
 				<button onClick={changeTheme}>CHANGE THEME</button>
 			</div>
