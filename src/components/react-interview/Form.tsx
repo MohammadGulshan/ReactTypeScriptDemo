@@ -66,31 +66,38 @@ const Form = ({changeSort}: FormProps) => {
 					</label>
 				</div>
 
-				<div style={{ marginBottom: '30px', marginTop: '30px' }}>
-					<label htmlFor="sortName">Sort by Name</label>
-					<input type="radio" name="sortTable" id="sortName"
-						value={radioSort}
-						onChange={(event) => handleRadioSort(event)}
-						checked={radioSort === 'sortName'}
-					/>
-					<br />
-					<label htmlFor="sortDate">Sort by Date</label>
-					<input type="radio" name="sortTable" id="sortDate"
-						value={radioSort}
-						onChange={(event) => handleRadioSort(event)}
-						checked={radioSort === 'sortDate'}
-					/>
-					<div>
-						{` This is the way it will be sorted - ${radioSort}`}
-					</div>
-
-				</div>
-
 				<div>
 					<button type="submit">Submit</button>
 				</div>
 			</div>
+
+			<hr />
+			<p>
+				<h3>
+					Super Hero Table
+				</h3>
+			</p>
+			<div style={{ marginBottom: '30px', marginTop: '30px' }}>
+				<label htmlFor="sortName">Sort by Name</label>
+				<input type="radio" name="sortTable" id="sortName"
+					value={radioSort}
+					onChange={(event) => handleRadioSort(event)}
+					checked={radioSort === 'sortName'}
+				/>
+				<br />
+				<label htmlFor="sortDate">Sort by Date</label>
+				<input type="radio" name="sortTable" id="sortDate"
+					value={radioSort}
+					onChange={(event) => handleRadioSort(event)}
+					checked={radioSort === 'sortDate'}
+				/>
+				<div>
+					{` This is the way it will be sorted - ${radioSort}`}
+				</div>
+
+			</div>
 		</form>
+		
 	)
 }
 
