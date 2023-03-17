@@ -176,7 +176,7 @@ function App(props: any) {
 				border: '1px solid green',
 				display: 'inline-block',
 				padding: '20px',
-				marginBottom: '20px'
+				marginBottom: '25px'
 			}} />
 			<hr />
 
