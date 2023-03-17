@@ -73,9 +73,9 @@ const Form = ({changeSort}: FormProps) => {
 
 			<hr />
 			<p>
-				<h3>
+				<b>
 					Super Hero Table
-				</h3>
+				</b>
 			</p>
 			<div style={{ marginBottom: '30px', marginTop: '30px' }}>
 				<label htmlFor="sortName">Sort by Name</label>

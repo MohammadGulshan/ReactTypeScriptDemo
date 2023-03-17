@@ -25,6 +25,8 @@ import { LoggedIn } from './components/state/LoggedIn';
 import { Status } from './components/Status';
 import ClickCounter from './components/higher-order/ClickCounter';
 import ReduceCounter from './components/reducers/ReduceCounter';
+import { connect } from 'react-redux';
+import { videoTableActions } from './components/redux/videoTableActions';
 
 type Action = 'increment' | 'decrement' | 'reset'
 export const contextForReducerValue = createContext<number | null>(null)
@@ -44,7 +46,7 @@ const cartReducer = (cartState: number, cartUpdate: Action) => {
 	}
 }
 
-function App() {
+function App(props: any) {
 
 	const personName = {
 		first: 'Bruce',
@@ -73,35 +75,40 @@ function App() {
 			first: 'Bruce',
 			last: 'Wayne',
 			dateOfBirth: '1/1/1985',
-			videoUrl: 'mqqft2x_Aa4'
+			videoUrl: 'mqqft2x_Aa4',
+			noOfMovies: 10
 		},
 		{
 			id: 2,
 			first: 'Clark',
 			last: 'Kent',
 			dateOfBirth: '3/3/1980',
-			videoUrl: 'T6DJcgm3wNY'
+			videoUrl: 'T6DJcgm3wNY',
+			noOfMovies: 10
 		},
 		{
 			id: 3,
 			first: 'Princess',
 			last: 'Diana',
 			dateOfBirth: '5/5/1995',
-			videoUrl: '1Q8fG0TtVAY'
+			videoUrl: '1Q8fG0TtVAY',
+			noOfMovies: 10
 		},
 		{
 			id: 4,
 			first: 'Barry',
 			last: 'Allen',
 			dateOfBirth: '10/10/1990',
-			videoUrl: 'hebWYacbdvc'
+			videoUrl: 'hebWYacbdvc',
+			noOfMovies: 10
 		},
 		{
 			id: 5,
 			first: 'Billy',
 			last: 'Batson',
 			dateOfBirth: '21/12/2000',
-			videoUrl: 'AIc671o9yCI'
+			videoUrl: 'AIc671o9yCI',
+			noOfMovies: 10
 		}
 	])
 
@@ -126,13 +133,18 @@ function App() {
 	const [myCart, myCartUpdate] = useReducer(cartReducer, cartInit)
 
 	return (
-		<div className="App">
+			<div className="App">
 			<Greet name='Gullu' isLoggedIn={true} />
 			<Person name={personName} />
 			<hr />
 
 			<Form changeSort={changeSortFn} />
 			<Table sortArray={sortList} />
+
+			{/* ++++++++++ REDUX EXAMPLE ++++++++++ START */}
+				{`Number of Movies released - ${props.initNoOfMovies}`}
+				<button onClick={props.newRelease}>NEW RELEASE</button>
+			{/* ++++++++++ REDUX EXAMPLE ++++++++++ END */}
 			<hr />
 
 			<DomRef />
@@ -223,4 +235,16 @@ function App() {
 	);
 }
 
-export default App;
+const mapStateToProps = (state: any) => {
+	return {
+		initNoOfMovies: state
+	}
+}
+
+const mapDispatchToProps = (dispatch: any) => {
+	return {
+		newRelease: () => dispatch(videoTableActions())
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

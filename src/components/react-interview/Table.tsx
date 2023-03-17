@@ -50,5 +50,6 @@ export type sortTableType = {
 	first: string,
 	last: string,
 	dateOfBirth: string,
-	videoUrl: string
+	videoUrl: string,
+	noOfMovies: number
 }

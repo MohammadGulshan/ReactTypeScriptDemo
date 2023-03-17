@@ -1,0 +1,1 @@
+export const VIDEO_TABLE_TYPE = 'VIDEO_TABLE_TYPE';
