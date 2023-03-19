@@ -25,7 +25,7 @@ import { LoggedIn } from './components/state/LoggedIn';
 import { Status } from './components/Status';
 import ClickCounter from './components/higher-order/ClickCounter';
 import ReduceCounter from './components/reducers/ReduceCounter';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { videoTableActions } from './components/redux/videoTableActions';
 
 type Action = 'increment' | 'decrement' | 'reset'
@@ -132,6 +132,14 @@ function App(props: any) {
 	// useReducer and useContext example
 	const [myCart, myCartUpdate] = useReducer(cartReducer, cartInit)
 
+	const noOfMov = useSelector((state) => {
+		return {
+			initNoOfMovies: state
+		}
+	})
+	const dispatchnoOfMov = useDispatch()
+	const [changeMovieBy, setChangeMovieBy] = useState(1);
+
 	return (
 			<div className="App">
 			<Greet name='Gullu' isLoggedIn={true} />
@@ -142,8 +150,11 @@ function App(props: any) {
 			<Table sortArray={sortList} />
 
 			{/* ++++++++++ REDUX EXAMPLE ++++++++++ START */}
-				{`Number of Movies released - ${props.initNoOfMovies}`}
-				<button onClick={props.newRelease}>NEW RELEASE</button>
+				{/* {`Number of Movies released (WTIHOUT HOOK useSelector() - ${props.initNoOfMovies}`} <br /> */}
+				{`Number of Movies released (WTIHOUT HOOK useSelector() - ${noOfMov.initNoOfMovies}`} <br />
+				<input type="number" value={changeMovieBy} onChange={(e) => setChangeMovieBy(parseInt(e.target.value))} />
+				{/* <button onClick={props.newRelease}>NEW RELEASE</button> */}
+				<button onClick={() => dispatchnoOfMov(videoTableActions(changeMovieBy))}>NEW RELEASE</button>
 			{/* ++++++++++ REDUX EXAMPLE ++++++++++ END */}
 			<hr />
 
@@ -235,16 +246,17 @@ function App(props: any) {
 	);
 }
 
-const mapStateToProps = (state: any) => {
-	return {
-		initNoOfMovies: state
-	}
-}
+// const mapStateToProps = (state: any) => {
+// 	return {
+// 		initNoOfMovies: state
+// 	}
+// }
 
-const mapDispatchToProps = (dispatch: any) => {
-	return {
-		newRelease: () => dispatch(videoTableActions())
-	}
-}
+// const mapDispatchToProps = (dispatch: any) => {
+// 	return {
+// 		newRelease: () => dispatch(videoTableActions())
+// 	}
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default (App);
+// connect(mapStateToProps, mapDispatchToProps)  <-- Put this before (App) for the old way!
