@@ -25,8 +25,13 @@ import { LoggedIn } from './components/state/LoggedIn';
 import { Status } from './components/Status';
 import ClickCounter from './components/higher-order/ClickCounter';
 import ReduceCounter from './components/reducers/ReduceCounter';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { videoTableActions } from './components/redux/videoTableActions';
+import { NavBar } from './components/NavBar';
+import { Route, Routes } from 'react-router-dom';
+import { About } from './components/About';
+import { Home } from './components/Home';
+import { ErrorPage } from './components/ErrorPage';
 
 type Action = 'increment' | 'decrement' | 'reset'
 export const contextForReducerValue = createContext<number | null>(null)
@@ -132,8 +137,23 @@ function App(props: any) {
 	// useReducer and useContext example
 	const [myCart, myCartUpdate] = useReducer(cartReducer, cartInit)
 
+	const noOfMov = useSelector((state) => {
+		return {
+			initNoOfMovies: state
+		}
+	})
+	const dispatchnoOfMov = useDispatch()
+	const [changeMovieBy, setChangeMovieBy] = useState(1);
+
 	return (
-			<div className="App">
+		<div className="App">
+			<NavBar />
+			<Routes>
+				<Route path='/' element={<Home />} />
+				<Route path='/table' element={<About />} />
+				<Route path='*' element={<ErrorPage />} />
+			</Routes>
+
 			<Greet name='Gullu' isLoggedIn={true} />
 			<Person name={personName} />
 			<hr />
@@ -142,8 +162,11 @@ function App(props: any) {
 			<Table sortArray={sortList} />
 
 			{/* ++++++++++ REDUX EXAMPLE ++++++++++ START */}
-				{`Number of Movies released - ${props.initNoOfMovies}`}
-				<button onClick={props.newRelease}>NEW RELEASE</button>
+			{/* {`Number of Movies released (WTIHOUT HOOK useSelector() - ${props.initNoOfMovies}`} <br /> */}
+			{`Number of Movies released (WTIHOUT HOOK useSelector() - ${noOfMov.initNoOfMovies}`} <br />
+			<input type="number" value={changeMovieBy} onChange={(e) => setChangeMovieBy(parseInt(e.target.value))} />
+			{/* <button onClick={props.newRelease}>NEW RELEASE</button> */}
+			<button onClick={() => dispatchnoOfMov(videoTableActions(changeMovieBy))}>NEW RELEASE</button>
 			{/* ++++++++++ REDUX EXAMPLE ++++++++++ END */}
 			<hr />
 
@@ -203,10 +226,10 @@ function App(props: any) {
 			<hr />
 
 			{/* <List
-				items={['Batman', 'Superman', 'Wonder Woman']}
-				onClick={item => console.log(item)}
-			/>
-			<List items={[1, 2, 3]} onClick={item => console.log(item)} /> */}
+						items={['Batman', 'Superman', 'Wonder Woman']}
+						onClick={item => console.log(item)}
+					/>
+					<List items={[1, 2, 3]} onClick={item => console.log(item)} /> */}
 			<List
 				items={sortList}
 				onClick={item => console.log(item)}
@@ -231,20 +254,22 @@ function App(props: any) {
 					</div>
 				</contextForReducerDispatch.Provider>
 			</contextForReducerValue.Provider>
+
 		</div>
 	);
 }
 
-const mapStateToProps = (state: any) => {
-	return {
-		initNoOfMovies: state
-	}
-}
+// const mapStateToProps = (state: any) => {
+// 	return {
+// 		initNoOfMovies: state
+// 	}
+// }
 
-const mapDispatchToProps = (dispatch: any) => {
-	return {
-		newRelease: () => dispatch(videoTableActions())
-	}
-}
+// const mapDispatchToProps = (dispatch: any) => {
+// 	return {
+// 		newRelease: () => dispatch(videoTableActions())
+// 	}
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default (App);
+// connect(mapStateToProps, mapDispatchToProps)  <-- Put this before (App) for the old way!
