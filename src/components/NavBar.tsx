@@ -5,7 +5,10 @@ export const NavBar = () => {
 		<>
 			<nav>
 				<NavLink to={'/'}>Home</NavLink>
+				<NavLink to={'/redux'}>Redux</NavLink>
 				<NavLink to={'/table'}>Table</NavLink>
+				<NavLink to={'/basics'}>Basics</NavLink>
+				<NavLink to={'/counter'}>Counter</NavLink>
 			</nav>
 		</>
 	)

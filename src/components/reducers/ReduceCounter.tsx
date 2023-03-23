@@ -1,5 +1,6 @@
 import { useContext } from "react"
-import { contextForReducerValue, contextForReducerDispatch } from "../../App"
+import { contextForReducerDispatch, contextForReducerValue } from "../CounterPage"
+
 
 const ReduceCounter = () => {
 	const reducerContext = useContext(contextForReducerValue)
