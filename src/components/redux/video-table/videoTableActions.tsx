@@ -1,4 +1,4 @@
-import { VIDEO_TABLE_TYPE } from "./videoTableTypes"
+import { VIDEO_TABLE_TYPE } from "../types"
 
 export const videoTableActions = (changeMovieBy: number) => {
 	return {
