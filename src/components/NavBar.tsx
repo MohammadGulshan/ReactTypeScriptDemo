@@ -9,6 +9,7 @@ export const NavBar = () => {
 				<NavLink to={'/table'}>Table</NavLink>
 				<NavLink to={'/basics'}>Basics</NavLink>
 				<NavLink to={'/counter'}>Counter</NavLink>
+				<NavLink to={'/lazy'}>Lazy Load</NavLink>
 			</nav>
 		</>
 	)
